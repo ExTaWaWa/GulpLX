@@ -12,13 +12,26 @@ const $ = require('gulp-load-plugins')();
 let mainBowerFiles = require('main-bower-files');
 let browserSync = require('browser-sync').create();
 let minimist = require('minimist');
+var gulpSequence = require('gulp-sequence')
 
+//設置條件、參數，利用 minimist 呼叫
 let evnOption = {
   string: 'env',
-  default: {env: 'develop'}
+  default: {
+    env: 'develop'
+  }
 }
-let options = minimist(process.argv.slice(2),evnOption);
+let options = minimist(process.argv.slice(2), evnOption);
 console.log(options)
+
+
+//清理垃圾檔案
+gulp.task('clean', function () {
+  return gulp.src(['./.tmp','./public'], {
+      read: false
+    })
+    .pipe($.clean());
+});
 
 gulp.task('copyHTML', function () {
   return gulp.src('./source/**/*.html')
@@ -53,7 +66,8 @@ gulp.task('sass', function () {
     // .pipe(postcss([autoprefixer()]))
     //配合（load-plugins)使用
     .pipe($.postcss([autoprefixer()]))
-    .pipe($.minifyCss())
+    //利用gulp if 寫判斷
+    .pipe($.if(options.env === 'production', $.minifyCss()))
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('./public/css'))
     .pipe(browserSync.stream())
@@ -67,11 +81,11 @@ gulp.task('babel', () =>
     presets: ['@babel/env']
   }))
   .pipe($.concat('all.js'))
-  .pipe($.uglify({
-    compress:{
+  .pipe($.if(options.env === 'production', $.uglify({
+    compress: {
       drop_console: true
     }
-  }))
+  })))
   .pipe($.sourcemaps.write('.'))
   .pipe(gulp.dest('./public/js'))
   .pipe(browserSync.stream())
@@ -92,15 +106,15 @@ gulp.task('bower', function () {
 gulp.task('vendorJs', function () {
   return gulp.src('./.tmp/vendors/**/**.js')
     .pipe($.concat('vendors.js'))
-    .pipe($.uglify())
+    .pipe($.if(options.env === 'production', $.uglify()))
     .pipe(gulp.dest('./public/js'))
 });
 
-gulp.task('browser-sync', function() {
+gulp.task('browser-sync', function () {
   browserSync.init({
-      server: {
-          baseDir: "./public"
-      }
+    server: {
+      baseDir: "./public"
+    }
   });
 });
 
@@ -111,6 +125,9 @@ gulp.task('watch', function () {
   gulp.watch('./source/js/*.js', gulp.series('babel'));
 });
 
+//最終輸出(gulp squence 不用了)
+gulp.task('out', gulp.series('clean', gulp.parallel('pug', 'sass', 'babel', gulp.series('bower', 'vendorJs'))))
+
 //4版要用 parallel ,3 版直接陣列
 //4版以 series 順序執行 bower vendors
-gulp.task('default', gulp.parallel('pug', 'sass', 'babel', gulp.series('bower', 'vendorJs'),'browser-sync', 'watch'));
+gulp.task('default', gulp.parallel('pug', 'sass', 'babel', gulp.series('bower', 'vendorJs'), 'browser-sync', 'watch'));
