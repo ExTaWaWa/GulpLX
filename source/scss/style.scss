@@ -1,0 +1,26 @@
+$blue: blue;
+
+// *{
+//   padding: 0;
+// }
+
+body {
+  color: $blue;
+}
+
+span{
+  color:pink;
+  transition: rotate(40deg);
+}
+
+p{
+  color: rgb(236, 78, 236);
+}
+
+.gg {
+  height: 30px;
+  width: 30px;
+  background: yellow;
+  text-align: center;
+  line-height: 30px;
+}

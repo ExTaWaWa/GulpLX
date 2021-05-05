@@ -1,0 +1,37 @@
+{
+  "name": "gulplx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.0",
+    "autoprefixer": "^10.2.5",
+    "browser-sync": "^2.26.14",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^3.0.0",
+    "gulp-load-plugins": "^2.0.6",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^9.0.0",
+    "gulp-pug": "^4.0.1",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "main-bower-files": "^2.13.3",
+    "minimist": "^1.2.5",
+    "node-sass": "^5.0.0",
+    "postcss": "^8.2.13"
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 5%"
+  ]
+}
