@@ -3,7 +3,7 @@
 let gulp = require('gulp');
 // let pug = require('gulp-pug');
 //必須有這條不然 gulp-load-plugins 會有問題
-let sass = require('gulp-sass');
+// let sass = require('gulp-sass');
 // let plumber = require('gulp-plumber');
 // let postcss = require('gulp-postcss');
 let autoprefixer = require('autoprefixer');
@@ -27,7 +27,7 @@ console.log(options)
 
 //清理垃圾檔案
 gulp.task('clean', function () {
-  return gulp.src(['./.tmp','./public'], {
+  return gulp.src(['./.tmp', './public'], {
       read: false
     })
     .pipe($.clean());
@@ -49,7 +49,7 @@ gulp.task('pug', function buildHTML() {
     .pipe(browserSync.stream())
 });
 
-sass.compiler = require('node-sass');
+$.sass.compiler = require('node-sass');
 
 gulp.task('sass', function () {
   // 這段要配 .pipe(postcss(plugins))使用
@@ -118,6 +118,12 @@ gulp.task('browser-sync', function () {
   });
 });
 
+exports.imgMin = () => (
+  gulp.src('./source/img/*')
+  .pipe($.if(options.env === 'production', $.imagemin()))
+  .pipe(gulp.dest('./public/img'))
+);
+
 gulp.task('watch', function () {
   //4版 gulp 尾巴不能再寫 ['sass'],要改成 gulp.series('sass')
   gulp.watch('./source/scss/**/*.scss', gulp.series('sass'));
@@ -130,4 +136,4 @@ gulp.task('out', gulp.series('clean', gulp.parallel('pug', 'sass', 'babel', gulp
 
 //4版要用 parallel ,3 版直接陣列
 //4版以 series 順序執行 bower vendors
-gulp.task('default', gulp.parallel('pug', 'sass', 'babel', gulp.series('bower', 'vendorJs'), 'browser-sync', 'watch'));
+gulp.task('default', gulp.parallel('pug', 'sass', 'babel', gulp.series('bower', 'vendorJs'), 'browser-sync',gulp.series(exports.imgMin) , 'watch'));
