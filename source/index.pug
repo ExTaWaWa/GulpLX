@@ -1,17 +1,39 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Document
-    link(rel="stylesheet", href="css/style.css")
-    script(src="js/all.js") 
-  body 
-    br
-    | jakshdfhuiy jkalsd a iasdfo zxcv hzxjlkcvka jkalsdjhaiuerkmavixc qw wej icxv jawe hkjaisf 
-    p jkaldjsflzxcvjk
-    span qq
-    |hkcvghk
-    |jsdfhgjk
-    div.gg no1
+//- 引導到layout那邊
+extend layout.pug
+
+//- 追加區域，如果layout用include的話就不用引入navbar的下面這兩行了
+block navbar 
+  include partials/navbar.pug
+
+//- 下面這堆會對應到layout那邊的block content
+block content
+  //- 代入 gulp.js 裡面 pug 那邊的外部 json 變數 #{}
+  h1 #{menu.list[1].name}
+
+  hr
+
+  h1 akjsldfio ahusdfkl
+    span Content
+    | Qoo Apple Dream
+  br 
+  | GG
+  ul
+    li
+      a(href="#") link
+    li
+      a(href="#") link
+    li
+      a(href="#") link
+
+  //- 縮排寫法
+  h1: a(href="#"): span 連結
+  //- 完整版
+  h1
+    a(href="#")
+      span 連結
+
+  hr
+  .container 
+    form(action="") 
+      label(for="email") 請輸入 Email
+      input#email.form-control.input-sm(type="text") 

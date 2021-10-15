@@ -7,12 +7,19 @@ var http = require("http");
 
 http.createServer(function(request, response) {
   console.log(request.url);
+  // response.write("<head><meta charset='UTF-8'></head>");
   if(request.url == '/'){
 // 路由
     // 資料庫
     console.log("接收到網頁請求！");
     response.writeHead(200, {"Content-Type": "text/HTML"});
     response.write("<h1>index</h1>");
+    response.end();
+  }else if(request.url == '/index'){
+     console.log("接收到網頁請求！");
+    response.writeHead(200, {"Content-Type": "text/HTML"});
+    response.write("<head><meta charset='UTF-8'></head>");
+    response.write("<h1>進主頁啦！</h1>");
     response.end();
   }else if(request.url == '/search'){
      console.log("接收到網頁請求！");

@@ -1,2 +1,18 @@
-body{color:#00f}span{color:pink;transition:rotate(40deg)}p{color:#ec4eec}.gg{height:30px;width:30px;background:#ff0;text-align:center;line-height:30px}
+body {
+  color: blue; }
+
+span {
+  color: pink;
+  transition: rotate(40deg); }
+
+p {
+  color: #ec4eec; }
+
+.gg {
+  height: 30px;
+  width: 30px;
+  background: yellow;
+  text-align: center;
+  line-height: 30px; }
+
 /*# sourceMappingURL=style.css.map */

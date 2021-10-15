@@ -42,6 +42,19 @@ gulp.task('pug', function buildHTML() {
   //這樣/**/的寫法會針對所有子資料夾做編譯
   return gulp.src('./source/*.pug')
     .pipe($.plumber())
+    .pipe($.data(function(){
+      //設定變數來源引入外部json
+      var khData = require('./source/data/data.json');
+      var menu = require('./source/data/menu.json');
+      //做成物件
+      var source = {
+        'khData':khData,
+        'menu':menu
+      };
+      //偵錯指令 gulp pug
+      // console.log('pug',source)
+      return source;
+    }))
     .pipe($.pug({
       pretty: true
     }))
